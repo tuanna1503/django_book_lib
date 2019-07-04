@@ -1,0 +1,70 @@
+{% extends "book/base.html" %}
+{% load cache %}
+
+{% cache 600 body_block %}
+{% block body_block %}
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Book rental application !</h1>
+    {% if user.is_authenticated %}
+        <h2>Hello {{ user.username }}</h2>
+    {% else %}
+        <h2>Register or Login if you'd like to</h2>
+    {% endif %}
+  </div>
+</div>
+<div class="book-list">
+  <table id="book-list">
+    <thead>
+      <tr>
+        <th>Book's Name</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Choose</th>
+        <th>Return</th>
+        <th>Your quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if books %}
+        {% for book in books %}
+          <tr>
+            <td> {{ book.book_name }} </td>
+            <td> {{ book.book_type }} </td>
+            <td> {{ book.amount }} </td>
+            <td> 
+              <form action="{% url 'book:rental' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="book_id" value="{{ book.id }}">
+                <input type="number" name="quantity" min="1" max="5" step="1">
+                <button type="submit">Submit</button>
+              </form> 
+            </td>
+            <td> 
+              <form action="{% url 'book:return' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="book_id" value="{{ book.id }}">
+                <input type="number" name="quantity" min="1" max="5" step="1">
+                <button type="submit">Submit</button>
+              </form> 
+            </td>
+            <td>
+                {{ r }}
+            </td>
+          </tr>
+        {% endfor %}
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      {% endif %}
+    </tbody>    
+  </table>
+</div>
+
+{% endblock %}
+{% endcache %}

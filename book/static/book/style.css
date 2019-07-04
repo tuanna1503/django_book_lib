@@ -1,0 +1,22 @@
+#book-list {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #book-list td, #book-list th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #book-list tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #book-list tr:hover {background-color: #ddd;}
+  
+  #book-list th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
